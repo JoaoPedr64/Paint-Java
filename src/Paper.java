@@ -12,6 +12,8 @@ public class Paper extends JPanel {
     private Graphics2D g2d;                               // Contexto da Tela
     private int xMouse, yMouse;                           // Coordenadas do mouse
 
+    JLabel numeroSize = new JLabel(String.valueOf(tamPincel));
+
     private Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();  // Dimensao da tela
 
 
@@ -65,11 +67,23 @@ public class Paper extends JPanel {
         return b;
     }
 
-    public void Clear() {
+    public void ClearPaper() {
         g2d.setPaint(Color.white);
         g2d.fillRect(0,0,screenSize.width,screenSize.height);
         g2d.setPaint(corAtual);
         repaint();
+    }
+
+    public void upSize() {
+        tamPincel += 5;
+        numeroSize.setText(String.valueOf(tamPincel));
+    }
+
+    public void downSize() {
+        if (tamPincel > 5) {
+            tamPincel -= 5;
+            numeroSize.setText(String.valueOf(tamPincel));
+        }
     }
 
     public static void main(String[] args) {
@@ -90,6 +104,8 @@ public class Paper extends JPanel {
         JButton black = new JButton("black");
         JButton white = new JButton("white");
         JButton clear = new JButton("clear");
+        JButton mais = new JButton("+");
+        JButton menos = new JButton("-");
 
         /* Config Buttons*/
         paper.createColorButton(blue, Color.BLUE, 10, 0);
@@ -98,10 +114,14 @@ public class Paper extends JPanel {
         paper.createColorButton(black, Color.BLACK, 340, 0);
         paper.createColorButton(white, Color.WHITE, 450, 0);
 
-        clear.setBounds(560, 670, 100, 100);
-        clear.addActionListener(actionEvent -> {
-            paper.Clear();
-        });
+        clear.setBounds(560, 0, 100, 100);
+        clear.addActionListener(actionEvent -> { paper.ClearPaper(); });
+
+        mais.setBounds(670, 0, 100, 100);
+        mais.addActionListener(actionEvent -> { paper.upSize(); });
+
+        menos.setBounds(780, 0, 100, 100);
+        menos.addActionListener(actionEvent -> { paper.downSize(); });
 
         /* Add Buttons */
         paper.add(blue);
@@ -110,6 +130,9 @@ public class Paper extends JPanel {
         paper.add(black);
         paper.add(white);
         paper.add(clear);
+        paper.add(mais);
+        paper.add(paper.numeroSize);
+        paper.add(menos);
     }
 
 }
